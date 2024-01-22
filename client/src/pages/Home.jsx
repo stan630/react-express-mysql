@@ -18,7 +18,7 @@ const Home = () => {
 
   const deleteContact = (id) => {
     if(window.confirm("Are you sure you want to delete this contact?")) {
-        axios.delete("http://localhost:8000/api/remove/${id}")
+        axios.delete(`http://localhost:8000/api/remove/${id}`)
         toast.success("Contact Deleted Successfully")
         setTimeout(() => loadData(),500)
     }
@@ -49,11 +49,11 @@ const Home = () => {
                 <td>{item.email}</td>
                 <td>{item.contact}</td>
                 <td>
-                  <Link to={"/update/${item.id}"}>
+                  <Link to={`/update/${item.id}`}>
                     <button className="btn btn-edit">Edit</button>
                   </Link>
                   <button className="btn btn-delete" onClick={()=> deleteContact(item.id)}> Delete</button>
-                  <Link to={"/view/${item.id}"}>
+                  <Link to={`/view/${item.id}`}>
                     <button className="btn btn-view">View</button>
                   </Link>
                 </td>

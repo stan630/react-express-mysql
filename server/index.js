@@ -3,7 +3,6 @@ const app = express()
 const mysql = require("mysql");
 const cors = require("cors");
 const bodyParser = require("body-parser")
-const path = require("path")
 
 const db = mysql.createPool({
 host: "localhost",
@@ -24,13 +23,36 @@ app.get("/api/get", (req,res)=> {
 })
 
 app.delete("/api/remove/:id", (req, res) => {
-    const {id} = req.body
+    const {id} = req.params
     const sqlRemove = 
         "DELETE FROM contact_db WHERE id=? "
-    db.query(sqlInsert, [name,email,contact], (error,result)=> {
+    db.query(sqlRemove, id,(error,result)=> {
         if(error) {
             console.log(error)
         }
+    })
+})
+
+app.get("/api/get/:id", (req,res)=> {
+    const {id} = req.params
+    const sqlGet = "SELECT * FROM contact_db WHERE id = ?"
+    db.query(sqlGet, id, (error,result)=> {
+        if(error) {
+            console.log(error)
+        }
+        res.send(result)
+    })
+})
+
+app.put("/api/update/:id", (req,res)=> {
+    const {id} = req.params
+    const {name,email,contact} =req.body
+    const sqlUpdate = "UPDATE contact_db SET name = ?, email=?, contact=? WHERE id = ?"
+    db.query(sqlUpdate, [name,email,contact,id], (error,result)=> {
+        if(error) {
+            console.log(error)
+        }
+        res.send(result)
     })
 })
 

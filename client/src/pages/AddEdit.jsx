@@ -17,23 +17,40 @@ const AddEdit = () => {
 
   const navigate = useNavigate();
 
+  const {id} = useParams()
+
+  useEffect(()=> {
+    axios.get(`http://localhost:8000/api/get/${id}`).then((resp) => setState({...resp.data[0]}))
+  },[id])
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("We are in handle submit");
     if (!name || !email || !contact) {
       toast.error("A value(s) is missing");
     } else {
+        if(!id) {
       axios.post("http://localhost:8000/api/post", {
+        name,
+        email,
+        contact,
+      })
+      .then(() => {
+        setState({name:"", email:"", contact:""})
+      }).catch((err) => toast.error(err.response.data));
+      toast.success("Contact added successfully")
+     } else {
+        axios
+        .put(`http://localhost:8000/api/update/${id}`, {
         name,
         email,
         contact,
       }).then(() => {
         setState({name:"", email:"", contact:""})
       }).catch((err) => toast.error(err.response.data));
-      toast.success("Contact added successfully")
+      toast.success("Contact updated successfully")
      }
      setTimeout(() => navigate("/"),500)
-      
+    }  
 };
   
 
@@ -84,7 +101,7 @@ const AddEdit = () => {
           value={contact || ""}
           onChange={handleChange}
         />
-        <input type="submit" value="Save" />
+        <input type="submit" value={id ? "Update" : "Save"} />
         <Link to="/">
           <input type="button" value="Go Back" />
         </Link>
