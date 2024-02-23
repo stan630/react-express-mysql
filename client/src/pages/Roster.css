@@ -1,6 +1,6 @@
 .styled-table {
     border-collapse: collapse;
-    margin: auto;
+    margin: 1.5rem auto .5rem;
     font-size: .9em;
     font-family: sans-serif;
     max-width: 800px;
@@ -8,7 +8,7 @@
 }
 
 .styled-table thead tr {
-    background-color: #009879;
+    background-color: #0C2340;
     color: #fff;
     text-align: left;
 }
@@ -44,11 +44,11 @@
 }
 
 .btn-edit {
-    background-color: #008cba;
+    background-color: #0C2340;
 }
 
 .btn-delete {
-    background-color:#f44336;
+    background-color:#BD3039;
 }
 
 .btn-view {
@@ -57,7 +57,14 @@
 }
 
 .btn-contact {
-    background-color: #e82764;
+    background-color: #BD3039;
     margin-bottom: 10px
+}
+
+.page-heading {
+    font-family: Scherazade;
+    font-weight: 600;
+    font-size: 2rem;
+    color:#BD3039
 }
 

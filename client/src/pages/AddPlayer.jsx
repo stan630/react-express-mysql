@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import "./AddEdit.css";
+import "./AddPlayer.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const initialState = {
-  name: "",
+  first_name: "",
+  last_name: "",
+  age: "",
   email: "",
-  contact: "",
+  position: "",
 };
 
-const AddEdit = () => {
+const AddPlayer = () => {
   const [state, setState] = useState(initialState);
 
-  const { name, email, contact } = state;
+  const { first_name, last_name, age, email, position } = state;
 
   const navigate = useNavigate();
 
@@ -25,29 +27,33 @@ const AddEdit = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !email || !contact) {
+    if (!first_name || !last_name || !age || !email ||  !position) {
       toast.error("A value(s) is missing");
     } else {
         if(!id) {
       axios.post("http://localhost:8000/api/post", {
-        name,
+        first_name,
+        last_name,
+        age,
         email,
-        contact,
+        position
       })
       .then(() => {
-        setState({name:"", email:"", contact:""})
+        setState({first_name:"", last_name:"", age:"", email:"", position:""})
       }).catch((err) => toast.error(err.response.data));
-      toast.success("Contact added successfully")
+      toast.success("Player added successfully")
      } else {
         axios
         .put(`http://localhost:8000/api/update/${id}`, {
-        name,
+        first_name,
+        last_name,
+        age,
         email,
-        contact,
+        position,
       }).then(() => {
-        setState({name:"", email:"", contact:""})
+        setState({first_name:"",last_name:"", age:"", email:"", position:""})
       }).catch((err) => toast.error(err.response.data));
-      toast.success("Contact updated successfully")
+      toast.success("Player updated successfully")
      }
      setTimeout(() => navigate("/"),500)
     }  
@@ -59,10 +65,9 @@ const AddEdit = () => {
     setState({ ...state, [name]: value });
   };
 
-  
-
   return (
     <div style={{ marginTop: "100px" }}>
+        <h2 >Add Player </h2>
       <form
         style={{
           margin: "auto",
@@ -72,13 +77,33 @@ const AddEdit = () => {
         }}
         onSubmit={handleSubmit}
       >
-        <label htmlFor="name">Name</label>
+        <label htmlFor="first_name">First Name</label>
         <input
           type="text"
-          id="name"
-          name="name"
-          placeholder="Your Name ..."
-          value={name || ""}
+          id="first_name"
+          name="first_name"
+          placeholder="First Name ..."
+          value={first_name || ""}
+          onChange={handleChange}
+        />
+
+        <label htmlFor="last_name">Last Name</label>
+        <input
+          type="text"
+          id="last_name"
+          name="last_name"
+          placeholder="Last Name ..."
+          value={last_name || ""}
+          onChange={handleChange}
+        />
+
+        <label htmlFor="age">Age</label>
+        <input
+          type="number"
+          id="age"
+          name="age"
+          placeholder="Age ..."
+          value={age || ""}
           onChange={handleChange}
         />
 
@@ -92,13 +117,13 @@ const AddEdit = () => {
           onChange={handleChange}
         />
 
-        <label htmlFor="contact">Contact</label>
+        <label htmlFor="position">Position</label>
         <input
-          type="number"
-          id="contact"
-          name="contact"
-          placeholder="Your Contact Number ..."
-          value={contact || ""}
+          type="text"
+          id="position"
+          name="position"
+          placeholder="Position ..."
+          value={position || ""}
           onChange={handleChange}
         />
         <input type="submit" value={id ? "Update" : "Save"} />
@@ -110,4 +135,4 @@ const AddEdit = () => {
   );
 };
 
-export default AddEdit;
+export default AddPlayer;

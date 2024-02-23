@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css"
-import Home from './pages/Home'
-import AddEdit from "./pages/AddEdit";
+import Roster from './pages/Roster'
+import AddPlayer from "./pages/AddPlayer";
 
 const App = () => {
   return (
@@ -12,9 +12,9 @@ const App = () => {
       <div className="App">
         <ToastContainer position="top-center" />
         <Routes>
-            <Route exact path="/" element={<Home />}/>
-            <Route path="/addContact" element={<AddEdit/>}/>
-            <Route path="/update/:id" element={<AddEdit/>}/>
+            <Route exact path="/" element={<Roster />}/>
+            <Route path="/add" element={<AddPlayer/>}/>
+            <Route path="/update/:id" element={<AddPlayer/>}/>
         </Routes>
       </div>
     </BrowserRouter>

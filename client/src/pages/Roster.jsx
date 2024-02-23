@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./Home.css";
+import "./Roster.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -17,26 +17,26 @@ const Home = () => {
   }, []);
 
   const deleteContact = (id) => {
-    if(window.confirm("Are you sure you want to delete this contact?")) {
+    if(window.confirm("Are you sure you want to delete this player?")) {
         axios.delete(`http://localhost:8000/api/remove/${id}`)
-        toast.success("Contact Deleted Successfully")
+        toast.success("Player deleted successfully")
         setTimeout(() => loadData(),500)
     }
   }
 
   return (
-    <div style={{ marginTop: "150px" }}>
-        <Link to="/addContact">
-            <button className="btn btn-contact">Add Contact</button>
-        </Link>
+    <div style={{ marginTop: "5rem" }}>
+        <h2 className="page-heading"> Red Sox Roster</h2>
         
       <table className="styled-table">
         <thead>
           <tr>
             <th style={{ textAlign: "center" }}>No.</th>
-            <th style={{ textAlign: "center" }}>Name</th>
+            <th style={{ textAlign: "center" }}>First Name</th>
+            <th style={{ textAlign: "center" }}>Last Name</th>
+            <th style={{ textAlign: "center" }}>Age</th>
             <th style={{ textAlign: "center" }}>Email</th>
-            <th style={{ textAlign: "center" }}>Contact</th>
+            <th style={{ textAlign: "center" }}>Position</th>
             <th style={{ textAlign: "center" }}>Action</th>
           </tr>
         </thead>
@@ -45,23 +45,25 @@ const Home = () => {
             return (
               <tr key={item.id}>
                 <th scope="row">{index + 1}</th>
-                <td>{item.name}</td>
+                <td>{item.first_name}</td>
+                <td>{item.last_name}</td>
+                <td>{item.age}</td>
                 <td>{item.email}</td>
-                <td>{item.contact}</td>
+                <td>{item.position}</td>
                 <td>
                   <Link to={`/update/${item.id}`}>
                     <button className="btn btn-edit">Edit</button>
                   </Link>
                   <button className="btn btn-delete" onClick={()=> deleteContact(item.id)}> Delete</button>
-                  <Link to={`/view/${item.id}`}>
-                    <button className="btn btn-view">View</button>
-                  </Link>
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
+      <Link to="/add">
+            <button style={{ marginTop: "12px" }} className="btn btn-contact">Add Player</button>
+        </Link>
     </div>
   );
 };
